@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Who's watching?</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        #transition-overlay {
+            position: fixed;
+            inset: 0; 
+            background-color: #141414; 
+            z-index: 100; 
+            clip-path: circle(0% at 50% 50%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            visibility: hidden;
+            overflow: hidden; 
+        }
+
+        #transition-overlay.animate-reveal {
+            visibility: visible;
+            animation: reveal 1.5s ease-in-out forwards; /* Keep circular reveal */
+        }
+
+        .rainbow-lines {
+            width: 100%;
+            height: 100%;
+            
+            /* The key change: much smaller initial stripes,
+               then expanding via background-size animation.
+               Using a vertical gradient (90deg) with specific color stops.
+               The transparent gaps create the "lines" effect with the dark background showing.
+            */
+            background: repeating-linear-gradient(
+                90deg,
+                /* Red band */
+                #ff0000 0%, #ff0000 0.5%, transparent 0.5%, transparent 1.5%,
+                /* Orange-red band */
+                #ff4500 1.5%, #ff4500 2%, transparent 2%, transparent 3%,
+                /* Orange band */
+                #ffa500 3%, #ffa500 3.5%, transparent 3.5%, transparent 4.5%,
+                /* Yellow-orange band */
+                #ff8c00 4.5%, #ff8c00 5%, transparent 5%, transparent 6%,
+                /* Yellow band */
+                #ffff00 6%, #ffff00 6.5%, transparent 6.5%, transparent 7.5%,
+                /* Green-yellow band */
+                #adff2f 7.5%, #adff2f 8%, transparent 8%, transparent 9%,
+                /* Green band */
+                #008000 9%, #008000 9.5%, transparent 9.5%, transparent 10.5%,
+                /* Blue-green band */
+                #00a0a0 10.5%, #00a0a0 11%, transparent 11%, transparent 12%,
+                /* Blue band */
+                #0000ff 12%, #0000ff 12.5%, transparent 12.5%, transparent 13.5%,
+                /* Indigo/Violet band */
+                #4b0082 13.5%, #4b0082 14%, transparent 14%, transparent 15%,
+                /* Loop back for smooth animation */
+                #ff0000 15%, #ff0000 15.5%, transparent 15.5%, transparent 16.5% /* Adjust last part for perfect loop */
+            );
+            
+            /* Initial size is very small, like starting from a point */
+            background-size: 10% 100%; /* Start narrow, full height */
+            background-position: center center; /* Ensure it starts from the middle */
+            background-repeat: no-repeat; /* Important for single "burst" */
+            
+            /* We'll animate the background-size to make lines expand */
+            animation: expandLines 1.5s ease-out forwards;
+        }
+
+        @keyframes reveal {
+            from {
+                clip-path: circle(0% at 50% 50%);
+            }
+            to {
+                clip-path: circle(150% at 50% 50%);
+            }
+        }
+
+        /* NEW ANIMATION for the expanding lines */
+        @keyframes expandLines {
+            0% {
+                background-size: 10% 100%; /* Start very narrow */
+                opacity: 0.5; /* Slightly transparent at start */
+            }
+            100% {
+                background-size: 1000% 100%; /* Expand significantly */
+                opacity: 1; /* Fully opaque at end */
+            }
+        }
+    </style>
+
+</head>
+<body class="bg-neutral-900 text-white flex justify-center items-center h-screen">
+
+    <div id="transition-overlay">
+        <div class="rainbow-lines"></div>
+    </div>
+
+
+    <div class="flex flex-col items-center">
+
+        <h1 class="text-5xl font-normal mb-8">Who's watching?</h1>
+
+        <div class="profile-selection">
+            
+            <a href="#" class="text-center text-gray-400 group">
+                
+                <div class="w-[150px] h-[150px] bg-blue-500 mb-3 
+                            flex justify-center items-center 
+                            text-7xl text-neutral-100
+                            border-4 border-transparent 
+                            group-hover:border-white 
+                            group-hover:scale-110
+                            transition-all duration-200">
+                    :)
+                </div>
+                
+                <span class="text-xl group-hover:text-white transition-colors duration-200">
+                    Mishty Verma
+                </span>
+            </a>
+        </div>
+
+        <button class="bg-transparent border border-gray-500 text-gray-500 
+                       py-2 px-6 text-base mt-12 
+                       hover:border-white hover:text-white
+                       transition-all duration-200">
+            Manage Profiles
+        </button>
+
+    </div>
+
+
+    <script>
+        const transitionOverlay = document.querySelector('#transition-overlay'); 
+        const profileLink = document.querySelector('.group'); 
+
+        profileLink.addEventListener('click', function(event) {
+            event.preventDefault(); 
+            
+            // Add a class that triggers the CSS animation
+            transitionOverlay.classList.add('animate-reveal'); 
+            
+            // Also add a class to the lines themselves to trigger their animation
+            document.querySelector('.rainbow-lines').classList.add('animate-lines');
+
+            // Wait for the animation to finish (1.5s), then reload
+            setTimeout(function() {
+                window.location.reload(); 
+            }, 1500); // Matches the reveal animation duration
+        });
+    </script>
+</body>
+</html>

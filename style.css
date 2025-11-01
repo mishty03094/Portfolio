@@ -1,0 +1,102 @@
+/* --- 1. General Page Setup --- */
+body {
+    background-color: #141414; /* Netflix's dark grey background */
+    color: #ffffff; /* Default text color to white */
+    font-family: Arial, sans-serif; /* A clean, simple font */
+    
+    /* This is Flexbox: a modern way to center things */
+    display: flex;
+    justify-content: center; /* Centers horizontally */
+    align-items: center; /* Centers vertically */
+    height: 100vh; /* vh = viewport height. 100vh = 100% of the screen's height */
+    margin: 0; /* Removes default browser margin */
+}
+
+/* --- 2. The Main Container --- */
+.profile-container {
+    /* This tells the items inside *this* container how to stack */
+    display: flex;
+    flex-direction: column; /* Stack children vertically (title, then cards, then button) */
+    align-items: center; /* Center the children horizontally */
+}
+
+/* --- 3. The Title --- */
+h1 {
+    font-size: 3.5rem; /* 'rem' is a unit relative to the browser's default font size. It scales well. */
+    font-weight: 400; /* Makes the font a bit thinner, like Netflix */
+    margin-bottom: 2rem; /* Adds space below the title */
+}
+
+/* --- 4. The Profile Card --- */
+.profile-card {
+    text-decoration: none; /* Removes the default blue underline from the link */
+    color: #808080; /* Sets the default name text to grey */
+    text-align: center;
+    
+    /* We'll add this for the cool scaling animation */
+    transition: transform 0.2s ease-in-out; 
+}
+
+.profile-avatar {
+    width: 150px;
+    height: 150px;
+    background-color: #3498db; /* The blue color from your image */
+    margin-bottom: 0.75rem; /* Space between the box and the name */
+    
+    /* More Flexbox! This centers the smiley text (':)') inside the blue box */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    /* Smiley face styles */
+    font-size: 5rem;
+    color: #f0f0f0;
+
+    /* This will animate the border */
+    border: 4px solid transparent; /* Start with an invisible border */
+    transition: border 0.2s ease-in-out; 
+}
+
+.profile-name {
+    font-size: 1.3rem;
+    /* This will animate the color change */
+    transition: color 0.2s ease-in-out;
+}
+
+/* --- 5. The "Glowing" Animation (The :hover effect) --- */
+
+/* This means: "When someone hovers their mouse over .profile-card..." */
+.profile-card:hover {
+    transform: scale(1.1); /* "...make the whole card 10% bigger." */
+}
+
+/* This is a "descendant selector" */
+/* It means: "When .profile-card is hovered, find the .profile-avatar *inside* it..." */
+.profile-card:hover .profile-avatar {
+    border: 4px solid #ffffff; /* "...and give it a 4px white border." */
+}
+
+/* It means: "When .profile-card is hovered, find the .profile-name *inside* it..." */
+.profile-card:hover .profile-name {
+    color: #ffffff; /* "...and make the text pure white." */
+}
+
+
+/* --- 6. The Button --- */
+.manage-button {
+    background-color: transparent;
+    border: 1px solid #808080; /* Grey border */
+    color: #808080; /* Grey text */
+    padding: 0.5rem 1.5rem; /* 0.5rem space top/bottom, 1.5rem space left/right */
+    font-size: 1rem;
+    margin-top: 3rem; /* Space above the button */
+    cursor: pointer; /* Makes the mouse turn into a pointing hand */
+    
+    /* Animate the button on hover, too! */
+    transition: all 0.2s ease-in-out;
+}
+
+.manage-button:hover {
+    border-color: #ffffff;
+    color: #ffffff;
+}
